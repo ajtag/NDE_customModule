@@ -49,7 +49,7 @@ export function deepMerge(target, source) {
   return out;
 }
 
-function parseBuildSettingsEnv(envFilePath = path.resolve(process.cwd(), 'build-settings.env')) {
+export function parseBuildSettingsEnv(envFilePath = path.resolve(process.cwd(), 'build-settings.env')) {
   if (!fs.existsSync(envFilePath)) {
     return {};
   }

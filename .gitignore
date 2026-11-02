@@ -19,6 +19,9 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+.*.sw?
+
+
 
 # Visual Studio Code
 .vscode/*
@@ -40,3 +43,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Primo configuration files
+build-settings.env
+proxy/proxy.const.mjs
+
+
+

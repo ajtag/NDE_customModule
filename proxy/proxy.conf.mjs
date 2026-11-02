@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {PROXY_TARGET} from "./proxy.const.mjs";
-import {buildMergedManifestResponse, createLocalCustomModuleAssetManifest, deepMerge, getAssetRelativePath, isCustomModuleAssetManifestRequest, proxyAgent, resolveCustomModuleManifestPath, resolveLocalAssetFilePath} from "./proxy-utils.mjs";
+import {parseBuildSettingsEnv, buildMergedManifestResponse, createLocalCustomModuleAssetManifest, deepMerge, getAssetRelativePath, isCustomModuleAssetManifestRequest, proxyAgent, resolveCustomModuleManifestPath, resolveLocalAssetFilePath} from "./proxy-utils.mjs";
+
+const env = parseBuildSettingsEnv();
 
 const assetContentTypes = {
   '.css': 'text/css',
@@ -44,6 +46,17 @@ async function serveCustomModuleManifest(req, res) {
 
 
 const proxyRules = [
+  {
+   context: (pathname, req)=>{return (pathname ==='/')},
+   target: PROXY_TARGET,
+   agent: proxyAgent,
+   secure:false,
+   changeOrigin: false,
+   selfHandleResponse: true,
+   onProxyReq: (proxyReq, req, res) =>{
+         return res.redirect(301, `/nde/home?vid=${env.INST_ID}:${env.VIEW_ID}`);
+   },
+  },
   {
     context: ['/nde/home', '/home'],
     target: PROXY_TARGET,
